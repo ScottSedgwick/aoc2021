@@ -1,18 +1,18 @@
 require 'rake'
 
-task :run => [:r01]
-task :test => [:t01]
+currentDay = '01'
 
-task :r01 do
-  run '01'
+task :run do
+  run currentDay
 end
 
-task :t01 do
-  test '01'
+task :test do
+  test currentDay
 end
 
 def run(day)
-  sh "cabal build advent-#{day};cabal exec advent-#{day}"
+  sh "cabal build advent-#{day}"
+  sh "cabal exec advent-#{day}"
 end
 
 def test(day)
