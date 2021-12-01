@@ -1,3 +1,3 @@
 # Advent of Code 2021
 
-Currently just a skeleton.
+Completed Day 01.

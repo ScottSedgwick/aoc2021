@@ -2,19 +2,22 @@ require 'rake'
 
 currentDay = '01'
 
-task :run do
-  run currentDay
+task :build do
+  sh "cabal build advent-#{currentDay}"
 end
 
-task :test do
-  test currentDay
+task :run1 => [:build] do
+  sh "cabal exec advent-#{currentDay} -- data/day#{currentDay}/data.txt 1"
 end
 
-def run(day)
-  sh "cabal build advent-#{day}"
-  sh "cabal exec advent-#{day}"
+task :test1 => [:build] do
+  sh "cabal exec advent-#{currentDay} -- data/day#{currentDay}/test.txt 1"
 end
 
-def test(day)
-  sh "cabal test advent-test-#{day}"
+task :run2 => [:build] do
+  sh "cabal exec advent-#{currentDay} -- data/day#{currentDay}/data.txt 2"
+end
+
+task :test2 => [:build] do
+  sh "cabal exec advent-#{currentDay} -- data/day#{currentDay}/test.txt 2"
 end
