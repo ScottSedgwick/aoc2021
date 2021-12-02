@@ -37,6 +37,7 @@ common common-options
   default-language:    Haskell2010
   default-extensions:  ConstraintKinds
                        DeriveGeneric
+                       DerivingStrategies
                        GeneralizedNewtypeDeriving
                        InstanceSigs
                        KindSignatures

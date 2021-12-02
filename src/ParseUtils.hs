@@ -1,6 +1,7 @@
 module ParseUtils 
   ( Parser
   , digit
+  , eolv
   , int
   , integer
   , intline

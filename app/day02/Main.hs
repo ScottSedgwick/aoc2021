@@ -10,6 +10,7 @@ main = do
   let inputfile = head args
   let stage = head $ tail args
   result <- parseFromFile parser inputfile
+  print result
   case result of
     Left e -> do
       putStrLn "Error: " 
