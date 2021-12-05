@@ -12,6 +12,7 @@ module ParseUtils
   , parseFromFile
   , parseMap
   , parseString
+  , strline
   , symbol
   ) where
 
@@ -36,7 +37,7 @@ import Text.Megaparsec
       some,
       MonadParsec(hidden, eof),
       SourcePos(sourceLine, sourceColumn) )
-import Text.Megaparsec.Char ( digitChar, eol, space, string )
+import Text.Megaparsec.Char ( digitChar, eol, space, string, letterChar )
 
 type Parser = Parsec Void String
 
@@ -74,6 +75,12 @@ intline = do
   _ <- many (oneOf [' ', '\t'])    -- consume any trailing spaces
   _ <- eolv <|> eof                -- consume the end-of-line character, or end-of-file
   pure (read x :: Int)             -- return the number we want, converted to an Int
+
+strline :: Parser String
+strline = do
+  s <- some letterChar
+  _ <- eolv <|> eof                -- consume the end-of-line character, or end-of-file
+  pure s
 
 eolv :: Parser ()
 eolv = do

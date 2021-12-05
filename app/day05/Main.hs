@@ -15,7 +15,8 @@ main = do
       putStrLn "Error: " 
       print e
     Right xs -> do
-      let x = if stage == "1"
-              then pt1 xs
-              else pt2 xs
+      let f = if stage == "1"
+              then pt1 
+              else pt2
+      x <- f xs 
       print x

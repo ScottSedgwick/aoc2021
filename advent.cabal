@@ -17,6 +17,7 @@ common common-options
   build-depends:       base
                      , containers
                      , data-default
+                     , split
                      , megaparsec
   
   ghc-options:         -Wall
@@ -78,6 +79,7 @@ library
                      , Day23
                      , Day24
                      , Day25
+                     , Utils
                      , ParseUtils
 
 executable advent-01
