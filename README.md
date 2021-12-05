@@ -1,3 +1,3 @@
 # Advent of Code 2021
 
-Completed Day 01.
+Completed Day 05.
