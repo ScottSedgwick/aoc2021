@@ -1,6 +1,6 @@
 require 'rake'
 
-currentDay = '05'
+currentDay = '06'
 
 task :build do
   sh "cabal build advent-#{currentDay}"
