@@ -3,6 +3,7 @@ module ParseUtils
   , digit
   , eolv
   , int
+  , ints
   , integer
   , intline
   , letter
@@ -28,6 +29,7 @@ import Text.Megaparsec
       (<?>),
       getSourcePos,
       oneOf,
+      optional,
       parse,
       satisfy,
       unPos,
@@ -71,10 +73,10 @@ locnParser p = do
 
 intline :: Parser Int
 intline = do
-  x <- some digit                  -- consume the digits we actually want
+  x <- int                         -- consume the digits
   _ <- many (oneOf [' ', '\t'])    -- consume any trailing spaces
   _ <- eolv <|> eof                -- consume the end-of-line character, or end-of-file
-  pure (read x :: Int)             -- return the number we want, converted to an Int
+  pure x                           -- return the number we want
 
 strline :: Parser String
 strline = do
@@ -83,9 +85,7 @@ strline = do
   pure s
 
 eolv :: Parser ()
-eolv = do
-  _ <- eol
-  pure ()
+eolv = ignore eol
 
 digit :: Parser Char
 digit = satisfy isDigit <?> "digit"
@@ -94,6 +94,15 @@ int :: Parser Int
 int = do
   x <- some digit
   pure (read x :: Int)
+
+ints :: String -> Parser [Int]
+ints delim = many $ do
+  x <- int
+  ignore $ optional (string delim)
+  pure x
+
+ignore :: Parser a -> Parser ()
+ignore p = p >> pure ()
 
 lexeme :: Parser a -> Parser a
 lexeme p = p <* hidden space

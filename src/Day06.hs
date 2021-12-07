@@ -1,9 +1,13 @@
-module Day06 (Model, pt1, pt2) where
+module Day06 (Model, parser, pt1, pt2) where
 
 import qualified Data.IntMap as IM
 import Data.IntMap ((!))
+import ParseUtils ( Parser, ints )
 
 type Model = [Int]
+
+parser :: Parser Model
+parser = ints ","
 
 pt1 :: Model -> IO Integer
 pt1 = breed 80 . toIM

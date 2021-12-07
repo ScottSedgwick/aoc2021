@@ -15,10 +15,12 @@ tested-with:         GHC == 8.8.3
 
 common common-options
   build-depends:       base
+                     , clock
                      , containers
                      , data-default
                      , split
                      , megaparsec
+                     , optparse-applicative
   
   ghc-options:         -Wall
                        -Wcompat
