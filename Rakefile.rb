@@ -1,27 +1,40 @@
 require 'rake'
 
-currentDay = '07'
+currentDay = '08'
 
 task :build do
-  sh "cabal build advent-#{currentDay}"
+  build currentDay
 end
 
 task :run1 => [:build] do
-  sh "cabal exec advent-#{currentDay} -- -i data/day#{currentDay}/data.txt -s 1"
+  runday currentDay, "data", 1
 end
 
 task :test1 => [:build] do
-  sh "cabal exec advent-#{currentDay} -- -i data/day#{currentDay}/test.txt -s 1"
+  runday currentDay, "test", 1
 end
 
 task :run2 => [:build] do
-  sh "cabal exec advent-#{currentDay} -- -i data/day#{currentDay}/data.txt -s 2"
+  runday currentDay, "data", 2
 end
 
 task :test2 => [:build] do
-  sh "cabal exec advent-#{currentDay} -- -i data/day#{currentDay}/test.txt -s 2"
+  runday currentDay, "test", 2
+end
+
+task :prun, [:day, :input, :stage] do |t, args|
+  build args[:day]
+  runday args[:day], args[:input], args[:stage]
+end
+
+def build(day)
+  sh "cabal build advent-#{day}"
+end
+
+def runday(day, input, stage)
+  sh "cabal exec advent-#{day} -- -i data/day#{day}/#{input}.txt -s #{stage}"
 end
 
 task :help => [:build] do
-  sh "cabal exec advent-#{currentDay} -- -h"
+  sh "cabal exec advent-01 -- -h"
 end

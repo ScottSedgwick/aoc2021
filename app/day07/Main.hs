@@ -1,8 +1,8 @@
 module Main (main) where
 
-import Options.Applicative ( execParser )
-
 import Day07 ( parser, pt1, pt2 )
+
+import Options.Applicative ( execParser )
 import ParseUtils (parseFromFile)
 import Utils ( timeMe, options, Options(..) ) 
 
