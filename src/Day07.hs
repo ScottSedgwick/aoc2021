@@ -7,17 +7,17 @@ type Model = [Int]
 parser :: Parser Model
 parser = ints ","
 
-pt1 :: Model -> IO Int
-pt1 xs = pure $ minimum (map (cost xs) [minimum xs .. maximum xs])
+pt1 :: Model -> Int
+pt1 xs = minimum (map (`cost` xs) [minimum xs .. maximum xs])
 
-cost :: Model -> Int -> Int
-cost xs p = sum $ map (\x -> abs (x - p)) xs
+cost :: Int -> Model -> Int
+cost p = sum . map (\x -> abs (x - p))
 
-pt2 :: Model -> IO Int
-pt2 xs = pure $ minimum (map (cost2 xs) [minimum xs .. maximum xs])
+pt2 :: Model -> Int
+pt2 xs = minimum (map (`cost2` xs) [minimum xs .. maximum xs])
 
-cost2 :: Model -> Int -> Int
-cost2 xs p = sum2 $ map (\x -> abs (x - p)) xs
+cost2 :: Int -> Model -> Int
+cost2 p = sum2 . map (\x -> abs (x - p))
 
 sum2 :: [Int] -> Int
 sum2 = foldr (\a b -> sum [1..a] + b) 0

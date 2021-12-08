@@ -1,6 +1,5 @@
 module Main (main) where
 
-import Control.Monad ( (>=>) )
 import Options.Applicative ( execParser )
 
 import Day07 ( parser, pt1, pt2 )
@@ -14,4 +13,4 @@ run :: Options -> IO ()
 run opts = timeMe $ do
   let f = if stage opts == "1" then pt1 else pt2
   xs <- parseFromFile parser (infile opts)
-  either print (f >=> print) xs
+  either print (print . f) xs
