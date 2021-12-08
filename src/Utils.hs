@@ -23,7 +23,7 @@ timeMe f = do
   f 
   t1 <- getTime Monotonic
   let t = toNanoSecs $ diffTimeSpec t1 t0
-  let t' = fromIntegral t / 1000000 :: Double
+  let t' = fromIntegral t / 1000000000 :: Double
   putStrLn $ "Time (secs): " <> show t'
 
 toDec :: String -> Int
