@@ -3,20 +3,15 @@ module Day09 (Model, parser, pt1, pt2) where
 import Data.Ord ( Down(Down) )
 import Data.List ( sortOn )
 import qualified Data.Map as M
-import ParseUtils ( Parser, eolv )
-import Text.Megaparsec ( many )
-import Text.Megaparsec.Char ( digitChar )
+import ParseUtils ( Parser, digitLine )
+import Text.Megaparsec ( some )
 
 type Model = [[Int]]
 
 parser :: Parser Model
-parser = many digitLine
+parser = some digitLine
 
-digitLine :: Parser [Int]
-digitLine = do
-  xs <- many digitChar
-  _ <- eolv
-  pure $ map (\x -> read [x] :: Int) xs
+-- Part 1
 
 pt1 :: Model -> Int
 pt1 hs = sum $ map (\(x,y) -> 1 + getPos hs (x,y)) (getLows hs)
@@ -97,4 +92,3 @@ fill z xs (x,y) = xs5
     xs3 = fillFrom z xs2 (x,y-1)
     xs4 = fillFrom z xs3 (x+1,y)
     xs5 = fillFrom z xs4 (x-1,y)
-

@@ -1,6 +1,7 @@
 module ParseUtils 
   ( Parser
   , digit
+  , digitLine
   , eolv
   , int
   , ints
@@ -77,6 +78,12 @@ intline = do
   _ <- many (oneOf [' ', '\t'])    -- consume any trailing spaces
   _ <- eolv <|> eof                -- consume the end-of-line character, or end-of-file
   pure x                           -- return the number we want
+
+digitLine :: Parser [Int]
+digitLine = do
+  xs <- some digitChar
+  _ <- eolv <|> eof
+  pure $ map (\x -> read [x] :: Int) xs
 
 strline :: Parser String
 strline = do
