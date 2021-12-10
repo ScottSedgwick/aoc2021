@@ -1,10 +1,22 @@
-module Day09 (Model, pt1, pt2) where
+module Day09 (Model, parser, pt1, pt2) where
 
 import Data.Ord ( Down(Down) )
 import Data.List ( sortOn )
 import qualified Data.Map as M
+import ParseUtils ( Parser, eolv )
+import Text.Megaparsec ( many )
+import Text.Megaparsec.Char ( digitChar )
 
-type Model = [String]
+type Model = [[Int]]
+
+parser :: Parser Model
+parser = many digitLine
+
+digitLine :: Parser [Int]
+digitLine = do
+  xs <- many digitChar
+  _ <- eolv
+  pure $ map (\x -> read [x] :: Int) xs
 
 pt1 :: Model -> Int
 pt1 hs = sum $ map (\(x,y) -> 1 + getPos hs (x,y)) (getLows hs)
@@ -29,18 +41,18 @@ isLow hs (x,y) = h < v
 getPos :: Model -> (Int, Int) -> Int
 getPos hs (x, y) = if x < 0 || x >= length (head hs) || y < 0 || y >= length hs
                    then 1000000
-                   else read [(hs !! y) !! x] :: Int
+                   else (hs !! y) !! x
 
 -- Part 2
 
-data State = Wall
-           | Zone Int
-           | Unknown
-           deriving stock (Show, Eq)
+data CellState = Wall
+               | Zone Int
+               | Unknown
+               deriving stock (Show, Eq)
 
 data Cell = Cell
   { height :: Int
-  , state :: State
+  , state :: CellState
   } deriving stock Show
 
 type Space = M.Map (Int, Int) Cell
