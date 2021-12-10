@@ -1,4 +1,4 @@
-module Utils ( rotate, timeMe, toDec, options, Options(..) ) where
+module Utils ( getLines, rotate, timeMe, toDec, options, Options(..) ) where
 
 import Data.Char ( digitToInt )
 import Data.List ( foldl' )
@@ -40,3 +40,6 @@ options = info (optParser <**> helper)
   ( fullDesc
   <> progDesc "Print a greeting for TARGET"
   <> header "hello - a test for optparse-applicative" )
+
+getLines :: Options -> IO [String]
+getLines opts = lines <$> readFile (infile opts)
