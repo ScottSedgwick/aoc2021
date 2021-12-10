@@ -1,30 +1,34 @@
 require 'rake'
 
-currentDay = '08'
+currentDay = '09'
 
 task :build do
   build currentDay
 end
 
-task :run1 => [:build] do
-  runday currentDay, "data", 1
+task :run1 do
+  run currentDay, "data", 1
 end
 
-task :test1 => [:build] do
-  runday currentDay, "test", 1
+task :test1 do
+  run currentDay, "test", 1
 end
 
-task :run2 => [:build] do
-  runday currentDay, "data", 2
+task :run2 do
+  run currentDay, "data", 2
 end
 
-task :test2 => [:build] do
-  runday currentDay, "test", 2
+task :test2 do
+  run currentDay, "test", 2
 end
 
-task :prun, [:day, :input, :stage] do |t, args|
-  build args[:day]
-  runday args[:day], args[:input], args[:stage]
+task :run, [:day, :input, :stage] do |t, args|
+  run args[:day], args[:input], args[:stage]
+end
+
+def run(day, input, stage)
+  build(day)
+  runday(day, input, stage)
 end
 
 def build(day)
