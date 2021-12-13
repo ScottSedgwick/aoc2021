@@ -1,5 +1,6 @@
-module Utils ( getLines, rotate, timeMe, toDec, options, Options(..) ) where
+module Utils ( getLines, rotate, timeMe, toDec, options, printPlot, Options(..) ) where
 
+import Control.Monad ( forM_ )
 import Data.Char ( digitToInt )
 import Data.List ( foldl' )
 import Options.Applicative
@@ -43,3 +44,11 @@ options = info (optParser <**> helper)
 
 getLines :: Options -> IO [String]
 getLines opts = lines <$> readFile (infile opts)
+
+printPlot :: [(Int, Int)] -> IO()
+printPlot ds = do
+  let xs = [0..maximum (map fst ds)]
+  let ys = [0..maximum (map snd ds)]
+  forM_ ys $ \y -> do
+    let l = map (\x -> if (x,y) `elem` ds then '#' else '.') xs
+    print l

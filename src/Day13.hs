@@ -1,10 +1,10 @@
 module Day13 (Model, parser, pt1, pt2) where
 
-import Control.Monad ( forM_ )
 import Data.List ( nub )
 import Text.Megaparsec ( optional, (<|>), many )
 import Text.Megaparsec.Char ( eol )
 import ParseUtils ( Parser, int, symbol )
+import Utils ( printPlot )
 
 data Fold = FoldY Int 
           | FoldX Int 
@@ -14,6 +14,8 @@ data Model = Model
   { dots :: [(Int, Int)]
   , folds :: [Fold]
   } deriving stock Show
+
+-- Parser 
 
 parser :: Parser Model
 parser = do
@@ -57,30 +59,19 @@ pt1 xs = do
   let ys = foldxy (head (folds xs)) (dots xs)
   pure $ length $ nub ys
 
-foldx :: Int -> [(Int, Int)] -> [(Int, Int)]
-foldx l = map f
-  where 
-    f (x,y) = (if x > l then 2 * l - x else x, y)
-
-foldy :: Int -> [(Int, Int)] -> [(Int, Int)]
-foldy l = map f
-  where 
-    f (x,y) = (x, if y > l then 2 * l - y else y)
+foldxy :: Fold -> [(Int, Int)] -> [(Int, Int)]
+foldxy f xs = 
+  case f of
+    FoldX x -> map (fx x) xs
+    FoldY y -> map (fy y) xs
+  where
+    fx l (x,y) = (if x > l then 2 * l - x else x, y)
+    fy l (x,y) = (x, if y > l then 2 * l - y else y)
 
 -- Part 2
 -- Fold to end, figure out code
 
 pt2 :: Model -> IO Int
 pt2 m = do
-  let ds = foldl (flip foldxy) (dots m) (folds m)
-  let xs = [0..maximum (map fst ds)]
-  let ys = [0..maximum (map snd ds)]
-  forM_ ys $ \y -> do
-    let l = map (\x -> if (x,y) `elem` ds then '#' else '.') xs
-    print l
+  printPlot (foldl (flip foldxy) (dots m) (folds m))
   pure 0
-
-foldxy :: Fold -> [(Int, Int)] -> [(Int, Int)]
-foldxy f xs = case f of
-                FoldX x -> foldx x xs
-                FoldY y -> foldy y xs
