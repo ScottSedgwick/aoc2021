@@ -1,21 +1,16 @@
 module Main (main) where
 
-import Day12 
-import ParseUtils (parseFromFile)
-import System.Environment (getArgs)
+import Day12 ( pt1, pt2, load )
+import Options.Applicative ( execParser )
+
+import Utils ( timeMe, options, Options(..) ) 
 
 main :: IO ()
-main = do
-  args <- getArgs
-  let inputfile = head args
-  let stage = head $ tail args
-  result <- parseFromFile parser inputfile
-  case result of
-    Left e -> do
-      putStrLn "Error: " 
-      print e
-    Right xs -> do
-      let x = if stage == "1"
-              then pt1 xs
-              else pt2 xs
-      print x
+main = run =<< execParser options
+
+run :: Options -> IO ()
+run opts = timeMe $ do
+  let f = if stage opts == "1" then pt1 else pt2
+  xs <- lines <$> readFile (infile opts)
+  let m = load xs
+  print $ f m
