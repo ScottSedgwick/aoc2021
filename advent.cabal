@@ -18,6 +18,7 @@ common common-options
                      , clock
                      , containers
                      , data-default
+                     , deepseq
                      , split
                      , megaparsec
                      , optparse-applicative
