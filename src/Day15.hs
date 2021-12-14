@@ -7,8 +7,8 @@ type Model = [Int]
 parser :: Parser Model
 parser = undefined
 
-pt1 :: Model -> Int
+pt1 :: Model -> IO Int
 pt1 = undefined
 
-pt2 :: Model -> Int
+pt2 :: Model -> IO Int
 pt2 = undefined
