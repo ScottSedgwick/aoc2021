@@ -1,7 +1,7 @@
 module Main (main) where
 
-import Control.Monad ( (<=<) )
 import Day15 ( parser, pt1, pt2 )
+import Control.Monad ( (<=<) )
 import Options.Applicative ( execParser )
 import ParseUtils (parseFromFile)
 import Utils ( timeMe, options, Options(..) ) 

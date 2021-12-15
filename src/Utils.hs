@@ -1,8 +1,9 @@
-module Utils ( getLines, rotate, timeMe, toDec, options, printPlot, Options(..) ) where
+module Utils ( dijkstra, getLines, rotate, timeMe, toDec, options, printGrid, printPlot, Options(..) ) where
 
 import Control.Monad ( forM_ )
 import Data.Char ( digitToInt )
 import Data.List ( foldl' )
+import qualified Data.Set as Set
 import Options.Applicative
 import System.Clock ( diffTimeSpec, getTime, toNanoSecs, Clock(Monotonic) )
 
@@ -45,6 +46,12 @@ options = info (optParser <**> helper)
 getLines :: Options -> IO [String]
 getLines opts = lines <$> readFile (infile opts)
 
+printGrid :: [[Int]] -> IO()
+printGrid = mapM_ printLine
+
+printLine :: [Int] -> IO()
+printLine = putStrLn . concatMap show
+
 printPlot :: [(Int, Int)] -> IO()
 printPlot ds = do
   let xs = [0..maximum (map fst ds)]
@@ -52,3 +59,22 @@ printPlot ds = do
   forM_ ys $ \y -> do
     let l = map (\x -> if (x,y) `elem` ds then '#' else '.') xs
     print l
+
+dijkstra
+  :: (Ord cost , Ord node)
+  => ((cost , node) -> [(cost , node)]) -- ^ Where we can go from a node and the cost of that
+  -> node                               -- ^ Where we want to get to
+  -> (cost , node)                      -- ^ The start position
+  -> Maybe (cost , node)                -- ^ Maybe the answer. Maybe it doesn't exist
+dijkstra next target start = search mempty (Set.singleton start)
+  where
+    search visited toBeVisited = 
+      case Set.minView toBeVisited of
+        Nothing -> Nothing
+        Just ((cost , vertex) , withoutVertex)
+          | vertex == target            -> Just (cost , vertex)
+          | vertex `Set.member` visited -> search visited withoutVertex
+          | otherwise                   -> search visitedWithNode withNext
+          where
+            visitedWithNode = Set.insert vertex visited
+            withNext = foldr Set.insert withoutVertex $ next (cost , vertex)

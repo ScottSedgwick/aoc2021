@@ -12,13 +12,14 @@ module ParseUtils
   , parens
   , parseFile
   , parseFromFile
+  , parseGrid
   , parseMap
   , parseString
   , strline
   , symbol
   ) where
 
-import Data.Char (isAlpha, isDigit)
+import Data.Char (isAlpha, isDigit, ord)
 import Data.Default (Default, def)
 import Data.Functor ((<&>))
 import Data.Void ( Void )
@@ -125,3 +126,15 @@ parens = between (symbol "(") (symbol ")")
 
 letter :: Parser Char
 letter = satisfy isAlpha <?> "letter"
+
+parseGrid :: Parser [[Int]]
+parseGrid = do
+  m <- some rowP
+  _ <- optional eof 
+  pure m
+
+rowP :: Parser [Int]
+rowP = do
+  xs <- some digit
+  _ <- optional eol
+  pure $ map (\x -> ord x - 48) xs
