@@ -303,11 +303,9 @@ executable advent-24
 
 executable advent-25
   import:              common-options
-  type:                exitcode-stdio-1.0
-  hs-source-dirs:      test
-  main-is:             Spec25.hs
+  hs-source-dirs:      app/day25
+  main-is:             Main.hs
   build-depends:       advent
-                     , hspec
   ghc-options:         -threaded
                        -rtsopts
                        -with-rtsopts=-N

@@ -100,8 +100,12 @@ digit = satisfy isDigit <?> "digit"
 
 int :: Parser Int
 int = do
-  x <- some digit
-  pure (read x :: Int)
+  sign <- optional (symbol "-")
+  xs <- some digit
+  let x = read xs :: Int
+  pure $ case sign of
+          Nothing -> x
+          Just _  -> -1 * x
 
 ints :: String -> Parser [Int]
 ints delim = many $ do
