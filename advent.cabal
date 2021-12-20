@@ -15,6 +15,7 @@ tested-with:         GHC == 8.8.3
 
 common common-options
   build-depends:       base
+                     , array
                      , clock
                      , containers
                      , data-default
@@ -82,6 +83,7 @@ library
                      , Day23
                      , Day24
                      , Day25
+                     , Trees
                      , Utils
                      , ParseUtils
 
