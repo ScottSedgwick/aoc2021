@@ -1,6 +1,6 @@
 require 'rake'
 
-currentDay = '18'
+currentDay = '19'
 
 task :build do
   build currentDay
