@@ -58,10 +58,8 @@ imgToMap y (xs:xxs) = foldr f (imgToMap (y+1) xxs) (zip [1..] xs)
 
 -- Part 1
 
-pt1 :: Model -> IO Int
-pt1 xs = do
-  let zs = foldr (\_ b -> enhance b) xs [1..2]
-  pure $ lit zs
+pt1 :: Model -> Int
+pt1 xs = lit $ foldr (\_ b -> enhance b) xs [1..2]
 
 lit :: Model -> Int
 lit m = foldr f 0 [(x,y) | x <- [minx m - increase..maxx m + increase], y <- [miny m - increase..maxy m + increase]]
@@ -89,18 +87,7 @@ bitsToInt (Nothing:xs) = 2 * bitsToInt xs
 bitsToInt ((Just False):xs) = 2 * bitsToInt xs
 bitsToInt ((Just True):xs) = 1 + 2 * bitsToInt xs
 
-prtImage :: Model -> IO()
-prtImage m = mapM_ (prtImgLine m) [-buf..maxy m + buf] 
-
-prtImgLine :: Model -> Int -> IO()
-prtImgLine m y = do
-  let bs = map (\x -> image m M.! (x,y)) [-buf..maxx m + buf]
-  let s = map (\b -> if b then '#' else '.') bs
-  putStrLn s
-
 -- Part 2
 
-pt2 :: Model -> IO Int
-pt2 xs = do
-  let zs = foldr (\_ b -> enhance b) xs [1..50]
-  pure $ lit zs
+pt2 :: Model -> Int
+pt2 xs = lit $ foldr (\_ b -> enhance b) xs [1..50]
