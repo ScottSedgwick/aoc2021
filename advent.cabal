@@ -20,9 +20,14 @@ common common-options
                      , containers
                      , data-default
                      , deepseq
-                     , split
+                     , lens
+                     , linear
                      , megaparsec
+                     , mtl
                      , optparse-applicative
+                     , search-algorithms
+                     , split
+                     , vector
   
   ghc-options:         -Wall
                        -Wcompat
@@ -43,6 +48,7 @@ common common-options
   default-extensions:  ConstraintKinds
                        DeriveGeneric
                        DerivingStrategies
+                       FlexibleInstances
                        GeneralizedNewtypeDeriving
                        InstanceSigs
                        KindSignatures
